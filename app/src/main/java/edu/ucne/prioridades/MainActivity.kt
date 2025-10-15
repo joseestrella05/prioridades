@@ -3,45 +3,42 @@ package edu.ucne.prioridades
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import edu.ucne.prioridades.ui.theme.PrioridadesTheme
+import edu.ucne.prioridades.presentation.PrioridadViewModel
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import edu.ucne.prioridades.presentation.PrioridadFormScreen
+import edu.ucne.prioridades.presentation.PrioridadListScreen
+import androidx.compose.ui.unit.dp
 
 class MainActivity : ComponentActivity() {
+    private val viewModel: PrioridadViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            PrioridadesTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            MaterialTheme {
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Box(modifier = Modifier.wrapContentHeight()) {
+                            PrioridadFormScreen(viewModel)
+                        }
+
+                        Divider(thickness = 1.dp)
+
+                        Box(modifier = Modifier.weight(1f)) {
+                            PrioridadListScreen(viewModel)
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PrioridadesTheme {
-        Greeting("Android")
     }
 }
